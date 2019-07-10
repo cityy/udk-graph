@@ -1,0 +1,38 @@
+{
+  "name": "udk-orga",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/cityy/udk-graph.git"
+  },
+  "scripts": {
+    "start": "node ./bin/www",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "3d-force-graph": "^1.49.7",
+    "cookie-parser": "~1.4.4",
+    "d3-dsv": "^1.1.1",
+    "d3-force-3d": "^2.0.1",
+    "d3-octree": "^0.1.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "neo4j-driver": "^1.7.5",
+    "three-full": "^17.1.0"
+  },
+  "devDependencies": {
+    "css-loader": "^3.0.0",
+    "mini-css-extract-plugin": "^0.7.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "three": "^0.106.2",
+    "three-spritetext": "^1.0.6",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
+  }
+}
