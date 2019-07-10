@@ -54,6 +54,7 @@ const requester = {
     init: () => {
         requester.getAll(['/graph']).then( (resp) => {
             graph.init(resp);
+            filter.init(resp[0].labels)
         })
     } // </f: init>
 };
@@ -108,6 +109,7 @@ const graph = {
         const NODE_REL_SIZE = 4;
         var myGraph = ForceGraph3d(graph.options)(document.getElementById('graph'))
             // general
+            .showNavInfo(false)
             .dagMode('bu')
             .dagLevelDistance(100)
             .graphData(myData)
@@ -136,7 +138,26 @@ const graph = {
     } //</f: init>
 };
 
+const filter = {
+    checklist: document.getElementById("filterCheckList"),
+    filters:[],
+    init: function(filters){
+        filters =  Array.from(new Set(filters.flat())); // flatten array and remove duplicates, fix this in the server request!
+        for(let i=0;i<filters.length;i++){
+            console.log(filters[i]);
+            let li = document.createElement("li");
+            let input = document.createElement("INPUT");
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("checked", "");
+            let span = document.createElement("span");
+            span.innerHTML = filters[i];
 
+            li.appendChild(input);
+            li.appendChild(span);
+            filter.checklist.appendChild(li);
+        }
+    }
+}
 
 //
 // 4. get kicking 

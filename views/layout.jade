@@ -7,4 +7,12 @@ html
     block content
     #graph
      | this is the graph container
+    #filterContainer
+     input(type="search", id="searchInput", placeholder="Search filters")
+     #labelFilters
+      h3 Labels
+      ul(id="filterCheckList")
+       // li
+       //   input(type="checkbox", class="filterCheckbox")
+       //   | check
   script(type='text/javascript', src='/js/main.js')
