@@ -64,11 +64,43 @@ const requester = {
 // 3. the graph object handles webGL graph creation and interaction
 //
 const graph = {
+    obj: undefined,
+    hiddenNodes:[],
+    hiddenRelations:[],
     options: { /* controlType and renderConfig */ 
         controlType: 'orbit'
     },
     colors: {
 
+    },
+    getNodesBy: function(prop, value){
+        // todo: differentiate between visible and hidden
+        let graphData = graph.obj.graphData(); 
+        let results = {};
+        for(let i=0;i<graphData.nodes.length;i++){
+            if(graphData.nodes[i][prop] == value){
+                results[graphData.nodes[i].id] = graphData.nodes[i];
+            }
+        }
+        return results;
+    },
+    hideNodes: function(nodes){
+        // todo: store the newly hidden nodes and relations
+        let newGraphData = graph.obj.graphData();
+        for(let id in nodes){
+            newGraphData.links = newGraphData.links.filter(l => l.source !== nodes[id] && l.target !== nodes[id]); // Remove links attached to node
+            let index = newGraphData.nodes.indexOf(nodes[id]);
+            newGraphData.nodes.splice(index, 1);
+        }
+        graph.obj.graphData(newGraphData);  
+    },
+    showNodes:function(nodes){
+        let newGraphData = graph.obj.graphData();
+        for(let id in nodes){
+            newGraphData.nodes.push(nodes)
+            // todo: get the hidden relations according to the nodes
+            newGraphData.links.push(nodes)
+        }
     },
     init: function(data){
         var black = 'rgba(0,0,0,1)';
@@ -107,7 +139,7 @@ const graph = {
                 graph.colors[data[0].labels[i]] = getRandomColor();
         } // labels
         const NODE_REL_SIZE = 4;
-        var myGraph = ForceGraph3d(graph.options)(document.getElementById('graph'))
+        graph.obj = ForceGraph3d(graph.options)(document.getElementById('graph'))
             // general
             .showNavInfo(false)
             .dagMode('bu')
@@ -134,27 +166,49 @@ const graph = {
             .linkDirectionalParticleSpeed(0.006)
             .d3Force('collision', d3.forceCollide(node => Math.cbrt(node.size) * NODE_REL_SIZE).radius(10))
             .d3VelocityDecay(0.3);
-
     } //</f: init>
 };
 
 const filter = {
     checklist: document.getElementById("filterCheckList"),
-    filters:[],
+    boxes:[],
     init: function(filters){
         filters =  Array.from(new Set(filters.flat())); // flatten array and remove duplicates, fix this in the server request!
         for(let i=0;i<filters.length;i++){
-            console.log(filters[i]);
+            // create dom elements for the different labels
             let li = document.createElement("li");
             let input = document.createElement("INPUT");
             input.setAttribute("type", "checkbox");
+            input.setAttribute("class", "labelFilter" );
+            input.setAttribute("id", filters[i] );
             input.setAttribute("checked", "");
             let span = document.createElement("span");
             span.innerHTML = filters[i];
-
+            // change event listener
+            input.addEventListener("change", (e) => {
+                    e.stopPropagation();
+                    let target = e.target; 
+                    console.log(target.getAttribute("id"));
+                    if(target.checked){ 
+                        // let filterNodes = graph.getNodesBy("label", target.getAttribute("id"));
+                        // graph.hideNodes(filterNodes);
+                    }
+                    else{
+                        let filterNodes = graph.getNodesBy("label", target.getAttribute("id"));
+                        let filterIds = []
+                        for(let ids in filterNodes){
+                            filterIds.push(ids);
+                        }
+                        graph.hideNodes(filterNodes);
+                    }
+            });
+            // append new dom elements to tree
             li.appendChild(input);
             li.appendChild(span);
             filter.checklist.appendChild(li);
+            // store a list of the filter checkboxes
+            filter.boxes.push(input); 
+            //
         }
     }
 }
