@@ -14,16 +14,16 @@ html, body, #graph {
 #filterContainer {
   position: fixed;
   top: 50%;
-  transform: translateY(-50%);
-  left: 3%;
-  width: 20%;
-  height: 80vh;
+  left: 5%;
+  width: 17%;
+  height: 70vh;
   border-radius: 0;
   background: rgba(16, 16, 32, 0.8);
   border: 1px solid rgba(128, 128, 255, 0.6);
   color: rgba(128, 128, 255, 0.6);
   padding: 2em;
-  white-space: nowrap; }
+  white-space: nowrap;
+  transform: translateY(-50%) perspective(900px) rotateY(15deg); }
   #filterContainer ul#filterCheckList {
     list-style: none;
     padding: 0; }
@@ -71,4 +71,6 @@ html, body, #graph {
     background-color: rgba(128, 128, 255, 0.6); }
   #filterContainer input[type="checkbox"]:focus {
     outline: 1px solid rgba(128, 128, 255, 0.6); }
+  #filterContainer input[type="checkbox"].varies {
+    background-color: rgba(64, 64, 128, 0.8); }
 
