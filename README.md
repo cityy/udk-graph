@@ -5,7 +5,7 @@ Im Rahmen des Projekts soll die angesprochene Neuberwertung mittels einer Webapp
 
 ![Neo4J Graph Sample](./public/img/190531_graph.jpg)
 
-![webGL Graph and Filters](./public/img/190719_filters.jpg)
+![webGL Graph and Filters](./public/img/190719_filters.JPG)
 
 # Szenarien
 Der Nutzen des Vorhabens ist im Folgenden anhand einer Reihe von Nutzungszenarien dargestellt:
