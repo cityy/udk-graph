@@ -5,6 +5,8 @@ Im Rahmen des Projekts soll die angesprochene Neuberwertung mittels einer Webapp
 
 ![Neo4J Graph Sample](./public/img/190531_graph.jpg)
 
+![webGL Graph and Filters](./public/img/190719_filters.jpg)
+
 # Szenarien
 Der Nutzen des Vorhabens ist im Folgenden anhand einer Reihe von Nutzungszenarien dargestellt:
 1. Präsentation und Transparenz
@@ -59,4 +61,6 @@ Komplette Abbildung des Architekturstudiengangs|Komplette Abbildung der Fakultä
 - Komplette Abbildung der Verwaltung
 
 # Zum aktuellen Stand
-Das Projekt befindet sich in der frühen Entstehungsphase und wird als NodeJS Anwendung ausgeführt. Voraussichtlich wird die benutzte Datenbanklösung neo4j.com sein. Für die grafische Repräsentation wird eine Kombination aus three.js für die Gebäudemodelle und vasturiano.github.io/3d-force-graph dienen. Die Applikation soll als Docker-Anwendung ausgeführt werden.
+Das Projekt wird als NodeJS Anwendung ausgeführt. Voraussichtlich wird die benutzte Datenbanklösung neo4j.com sein. Für die grafische Repräsentation wird eine Kombination aus three.js für die Gebäudemodelle und vasturiano.github.io/3d-force-graph dienen.
+
+Im aktuellen Stand funktioniert die grundsätzliche Client-Server/DB Interaktion. Der Graph wird mittels webGL abgebildet und ist nach grundlegenden Labeln strukturell filterbar. Im nächsten Schritt soll eine Meta-Daten Filterung ermöglicht werden (z.B. Geschlechter, Forschungsinhalte...).
