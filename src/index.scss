@@ -2,73 +2,132 @@ $indigo: rgba(16,16,32,0.8);
 $indigoMD: rgba(64,64,128,0.8);
 $indigoLT: rgba(128,128,255,0.6);
 
+$lightGray: rgba(240,240,240,1);
+$white: rgba(255,255,255,1);
+$black: rgba(0,0,0,1);
+
 @font-face{
     font-family: "League Spartan";
     src: url( "../public/fonts/leaguespartan-bold.woff" );
 }
 
+@font-face{
+    font-family: "League Mono";
+    src: url( "../public/fonts/LeagueMono-Regular.otf" );
+    font-weight: 300;
+}
 
-html, body, #graph{ 
-    margin:0; padding:0; max-width: 100%; max-height: 100%; overflow: hidden; 
-    font-family: "League Spartan", Monospace; font-size: 0.9em;
+@font-face{
+    font-family: "League Mono";
+    src: url( "../public/fonts/LeagueMono-Thin.otf" );
+    font-weight: 200;
+}
+
+@font-face{
+    font-family: "League Mono";
+    src: url( "../public/fonts/LeagueMono-UltraLight.otf" );
+    font-weight: 100;
 }
 
 
-#filterContainer{
-    position: fixed;
+html, body, #graph{ 
+    margin:0; padding:0; max-width: 100%; max-height: 100%; overflow: hidden; 
+    font-family: Monospace, "League Spartan", Monospace; font-size: 0.85em; font-weight: 200;
+    background-color: $white; line-height: 1.5em;
+}
+
+a.cleanLink, a.cleanLink:hover, a.cleanLink:active, a.cleanLink:visited{ color:$black; text-decoration: none; }
+ul{ list-style: none; padding:0;  li{padding: 0; margin: 0 0 0 0.3em;} }
+
+#taskbar{
+    border-bottom:1px solid $black;
+    ul{ margin:0.1em; }
+    li{display: inline-block; vertical-align: middle;}
+    #start{ 
+        background-image: url('../public/img/logo.svg'); min-width: 2em; min-height: 2em; 
+        background-repeat:no-repeat;
+        background-size:contain;
+    }
+    #startMenu{
+        position:fixed;
+        top: 2.2em;
+        background:$white;
+        border:1px solid $black;
+        border-left: none;
+        min-width: 300px;
+        display: none;
+        z-index: 9999;
+        li{
+            display: list-item;
+            padding: 1em;
+        }
+    }
+}
+
+.window{
+    position: absolute;
     top: 50%;
-    // transform: translateY(-50%);
+    border-radius: 0;
+    background: $white;
+    border:1px solid $black;
+    color: $black;
+    transform: translateY(-50%);
+    overflow: hidden;
+    display: block;
+
+    .titleBar {
+        /*display: table-row;*/
+        border-bottom:1px solid $black;
+        padding:0em 0em;
+        text-align: center;
+        cursor: move;
+        .leftCol,.middleCol,.rightCol{ display: inline-block; text-align: center; vertical-align: middle;}
+        .leftCol{width: 10%;}
+        .middleCol{ width: 80%; white-space: nowrap; overflow: hidden;}
+        .rightCol{ width: 10%; }
+    }
+
+    .scrollWrapper{ max-height: 70vh; }
+    .windowContent{ 
+        padding: 2em; 
+        hr { color:$black; border:none; border-bottom: 1px solid $black; } 
+    }
+}
+
+#filterWindow{
     left: 5%;
     width: 17%;
-    height: 70vh;
-    border-radius: 0;
-    background: $indigo;
-    border:1px solid $indigoLT;
-    color:$indigoLT;
-    padding:2em;
-    // overflow-y: scroll;
-    // overflow-x: hidden;
     white-space: nowrap;
-    transform: translateY(-50%) perspective(900px) rotateY(15deg);
-
-    #labelFilters{
-
-    }
-
-    ul#filterCheckList{ 
-        list-style: none; padding:0; 
-        li{padding: 0; margin: 0 0 0 0.3em;}
-    }
 
     input{
         display: block;
         appearance: none;
         -webkit-appearance: none;
         -moz-appearance: none;
-        color:$indigoLT;
+        color:$black;
     }
     input[type="search"]{
       background-color: transparent;
       border-radius: 0;
-      border: 1px solid $indigoLT;
+      border: 1px solid $black;
       font-family: inherit;
       font-size: 1em;
       width: 100%;
       padding: 0.3em;
     }
     input[type="search"]::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-      color: $indigoLT;
+      color: $black;
       margin-left: 0.5em;
       opacity: 1; /* Firefox */
     }
 
     input[type="search"]:-ms-input-placeholder { /* Internet Explorer 10-11 */
-      color: $indigoLT;
+      color: $black;
       margin-left: 0.5em;
     }
 
     input[type="search"]::-ms-input-placeholder { /* Microsoft Edge */
-      color: $indigoLT;
+      color: $black;
       margin-left: 0.5em;
     }
     input[type="checkbox"]{
@@ -77,17 +136,34 @@ html, body, #graph{
         transform: translateY(0.15em);
         background-color: transparent;
         border-radius: 0;
-        border: 1px solid $indigoLT;
+        border: 1px solid $black;
         width: 1em;
         height: 1em;
     }
     input[type="checkbox"]:checked{
-         background-color:$indigoLT;
+         background-color:$black;
     }
     input[type="checkbox"]:focus{
-        outline: 1px solid $indigoLT;
+        outline: 1px solid $black;
     }
     input[type="checkbox"].varies{
-        background-color: $indigoMD;
+        background-color: rgba(255,255,255, 0.8);
+    }
+}
+
+#infoWindow{
+    right: 5%;
+    width: 17%;
+    // transform: translateY(-50%) perspective(900px) rotateY(-15deg);
+    h3{ color:$black; }
+    #nodePropList{
+        margin-top: 0;
+        li{display: inline-block;}
+    }
+    ul{ 
+        list-style: none; padding:0; 
+        li{padding: 0.3em; margin: 0 0 0 0;}
+        li:hover{ color:$white; background-color:$black; }
+        span{margin:0; padding:0; font-size: smaller;}
     }
 }

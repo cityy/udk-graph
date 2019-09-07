@@ -1,0 +1,115 @@
+$indigo: rgba(16,16,32,0.8);
+$indigoMD: rgba(64,64,128,0.8);
+$indigoLT: rgba(128,128,255,0.6);
+
+@font-face{
+    font-family: "League Spartan";
+    src: url( "../public/fonts/leaguespartan-bold.woff" );
+}
+
+
+html, body, #graph{ 
+    margin:0; padding:0; max-width: 100%; max-height: 100%; overflow: hidden; 
+    font-family: "League Spartan", Monospace; font-size: 0.9em;
+}
+
+
+#filterContainer{
+    position: fixed;
+    top: 50%;
+    // transform: translateY(-50%);
+    left: 5%;
+    width: 17%;
+    height: 70vh;
+    border-radius: 0;
+    background: $indigo;
+    border:1px solid $indigoLT;
+    color:$indigoLT;
+    padding:2em;
+    // overflow-y: scroll;
+    // overflow-x: hidden;
+    white-space: nowrap;
+    transform: translateY(-50%) perspective(900px) rotateY(15deg);
+
+    #filters{
+
+    }
+
+    ul{ 
+        list-style: none; padding:0; 
+        li{padding: 0; margin: 0 0 0 0.3em;}
+    }
+
+    input{
+        display: block;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        color:$indigoLT;
+    }
+    input[type="search"]{
+      background-color: transparent;
+      border-radius: 0;
+      border: 1px solid $indigoLT;
+      font-family: inherit;
+      font-size: 1em;
+      width: 100%;
+      padding: 0.3em;
+    }
+    input[type="search"]::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $indigoLT;
+      margin-left: 0.5em;
+      opacity: 1; /* Firefox */
+    }
+
+    input[type="search"]:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: $indigoLT;
+      margin-left: 0.5em;
+    }
+
+    input[type="search"]::-ms-input-placeholder { /* Microsoft Edge */
+      color: $indigoLT;
+      margin-left: 0.5em;
+    }
+    input[type="checkbox"]{
+        display: inline-block;
+        margin: 0em 0.5em 0 0;
+        transform: translateY(0.15em);
+        background-color: transparent;
+        border-radius: 0;
+        border: 1px solid $indigoLT;
+        width: 1em;
+        height: 1em;
+    }
+    input[type="checkbox"]:checked{
+         background-color:$indigoLT;
+    }
+    input[type="checkbox"]:focus{
+        outline: 1px solid $indigoLT;
+    }
+    input[type="checkbox"].varies{
+        background-color: $indigoMD;
+    }
+}
+
+#nodeInfoContainer{
+    position: fixed;
+    top: 50%;
+    right: 5%;
+    width: 17%;
+    height: 70vh;
+    border-radius: 0;
+    background: $indigo;
+    border:1px solid $indigoLT;
+    color:$indigoMD;
+    padding:2em;
+    transform: translateY(-50%) perspective(900px) rotateY(-15deg);
+
+    h3{ color:$indigoLT; }
+    ul{ 
+        list-style: none; padding:0; 
+        li{padding: 0.3em; margin: 0 0 0 0;}
+        li:hover{ color:$indigo; background-color:$indigoLT; }
+        span{margin:0; padding:0; font-size: smaller;}
+    }
+}

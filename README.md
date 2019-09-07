@@ -5,7 +5,18 @@ Im Rahmen des Projekts soll die angesprochene Neuberwertung mittels einer Webapp
 
 ![Neo4J Graph Sample](./public/img/190531_graph.jpg)
 
-![webGL Graph and Filters](./public/img/190719_filters.JPG)
+<!-- ![webGL Graph and Filters](./public/img/190719_filters.JPG) -->
+![Current State UI](./public/img/190907_demo.JPG)
+video: https://www.youtube.com/embed/YJsGxVu1C6E
+
+# Changelog
+
+## 190907
+- überarbeitetes UI konzept im Stile eine einfachen Desktop Oberfläche
+- einfaches Window Management zum flexiblen Abbilden verschiedener Informationen
+- neuer Info Container beim Click auf nodes, zeigt Eigenschaften, Members, Parents
+- Filter wurden ergänzt um Zahl betreffender Nodes
+- Neuer Meta-Filter, der dynamische Graphen nach Eigenschaften erzeugt (z.B. alle ProfessorInnen nach Geschlecht, Titel...)
 
 # Szenarien
 Der Nutzen des Vorhabens ist im Folgenden anhand einer Reihe von Nutzungszenarien dargestellt:
@@ -59,8 +70,3 @@ Komplette Abbildung des Architekturstudiengangs|Komplette Abbildung der Fakultä
 - Komplette Abbildung der Fakultäten
 - Komplette Abbildung der Gremienstruktur
 - Komplette Abbildung der Verwaltung
-
-# Zum aktuellen Stand
-Das Projekt wird als NodeJS Anwendung ausgeführt. Voraussichtlich wird die benutzte Datenbanklösung neo4j.com sein. Für die grafische Repräsentation wird eine Kombination aus three.js für die Gebäudemodelle und vasturiano.github.io/3d-force-graph dienen.
-
-Im aktuellen Stand funktioniert die grundsätzliche Client-Server/DB Interaktion. Der Graph wird mittels webGL abgebildet und ist nach grundlegenden Labeln strukturell filterbar. Im nächsten Schritt soll eine Meta-Daten Filterung ermöglicht werden (z.B. Geschlechter, Forschungsinhalte...).

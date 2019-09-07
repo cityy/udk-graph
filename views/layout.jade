@@ -4,15 +4,19 @@ html
     title= title
     link(rel='stylesheet', href='/css/main.css')
   body
-    block content
+    // block content
+    #taskbar
+     ul
+      li#start
+       | 
+     #startMenu
+      ul
+       li
+        a.cleanLink(href="#", id="filterShortcut")
+         | filter 
+       li
+        a.cleanLink(href="#")
+         | about
     #graph
      | this is the graph container
-    #filterContainer
-     input(type="search", id="filterSearchInput", placeholder="Search filters")
-     #labelFilters
-      h3 Labels
-      ul(id="filterCheckList")
-       li
-         input(type="checkbox", class="labelFilter", id="allLabels", checked)
-         | Alle
   script(type='text/javascript', src='/js/main.js')

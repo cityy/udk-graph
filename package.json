@@ -22,6 +22,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "neo4j-driver": "^1.7.5",
+    "simplebar": "^4.1.0",
     "three-full": "^17.1.0"
   },
   "devDependencies": {

@@ -34,9 +34,13 @@ module.exports = {
         ],
       }, //css and sass
       {
-        test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        test   : /\.(ttf|otf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader : 'file-loader'
       }, // fonts
+      {
+        test   : /\.(svg?)(\?[a-z0-9=&.]+)?$/,
+        loader : 'file-loader?name=[name].[ext]&outputPath=../img/'
+      },
     ], // rules
   },
 };

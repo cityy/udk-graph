@@ -14,94 +14,150 @@ var neo4j = require('neo4j-driver').v1;
 let uri = "bolt://localhost:7687";
 let user = "neo4j";
 let password = "10381417";
-const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+const driver = neo4j.driver( uri, neo4j.auth.basic( user, password ));
 const session = driver.session();
 
 const db = {
     getAllNodes: function(){
-        return new Promise( (resolve, reject) => {
-            session.run("MATCH (n) RETURN n").then((resp) => {
+        return new Promise( ( resolve, reject ) => {
+            session.run( "MATCH (n) RETURN n" ).then( ( resp ) => {
                 // console.log(resp.records[0]._fields);
                 // console.log(resp.records.length);
                 session.close();
                 driver.close();
                 let nodes = [];
-                for(let i=0; i< resp.records.length; i++){
-                    nodes[i]=resp.records[i]._fields[0];
+                for( let i = 0; i < resp.records.length; i++ ){
+                    nodes[i] = resp.records[i]._fields[0];
                 }
-                resolve(nodes);
-            }).catch((err) => {
-                reject(err);
+                resolve( nodes );
+            }).catch( ( err ) => {
+                reject( err );
             });
         });
     },
     getAllRelations: function(){
-        return new Promise( (resolve, reject) => {
-            session.run("MATCH (n)-[r]->(m) RETURN r").then((resp) => {
+        return new Promise( ( resolve, reject ) => {
+            session.run( "MATCH (n)-[r]->(m) RETURN r" ).then( ( resp ) => {
                 // console.log(resp.records[0]._fields);
                 // console.log(resp.records.length);
                 session.close();
                 driver.close();
                 let relations = [];
-                for(let i=0; i< resp.records.length; i++){
-                    relations[i]=resp.records[i]._fields[0];
+                for( let i = 0; i < resp.records.length; i++ ){
+                    relations[i] = resp.records[i]._fields[0];
                 }
-                resolve(relations);
-            }).catch((err) => {
-                reject(err);
+                resolve( relations );
+            }).catch( ( err ) => {
+                reject( err );
             });
         });
     },
-    getNodesByLabel: function(labelName){},
-    getRelationsByLabel: function(labelName){},
-    getAllLabels: function(){
-        return new Promise( (resolve, reject) => {
-            session.run("MATCH (n) RETURN distinct labels(n)").then((resp) => {
-                // console.log(resp.records[0]._fields);
+    getNodesByLabel: function( labelName ) {},
+    getRelationsByLabel: function( labelName ) {},
+    getAllLabels: function() {
+        return new Promise( ( resolve, reject ) => {
+            session.run( "MATCH (n) RETURN distinct labels(n)" ).then( ( resp ) => {
+                let labels = [];
+                let promises = [];
+                for( let i=0; i< resp.records.length; i++ ){
+                    for(let j=0; j< resp.records[i]._fields[0].length; j++){
+                        labels.push(resp.records[i]._fields[0][j])
+                    }
+                }
+                // remove duplicates and sort
+                let labelArr = Array.from( new Set( labels ) ).sort();
+                // get label counts
+                for(let k=0; k < labelArr.length; k++){
+                    promises.push( session.run( "MATCH (n:" + labelArr[k] + ") return size(collect(n))" ) );
+                }
+                Promise.all(promises).then(function(resp){
+                    session.close();
+                    driver.close();
+                    let labelCounts = [];
+                    // loop through the multiple responses produced by the promise.all() procedure
+                    for( let l = 0; l < resp.length; l++ ){
+                        labelCounts.push(resp[l].records[0]._fields[0].low);
+                    }
+                    resolve( { tags: labelArr, counts: labelCounts } );
+                }).catch( ( err ) => {
+                    reject( err );
+                });
+            }).catch( (err) => {
+                reject( err );
+            });
+        });
+    },
+    getAllProperties: function() {
+        return new Promise( ( resolve, reject ) => {
+            session.run( "MATCH (a) UNWIND keys(a) AS key WITH DISTINCT key ORDER by key RETURN collect(key)").then( ( resp ) => {
                 session.close();
                 driver.close();
-                let labels = [];
-                for(let i=0; i< resp.records.length; i++){
-                    labels[i]=resp.records[i]._fields[0];
-                }
-                resolve(labels);
-            }).catch((err) => {
-                reject(err);
-            });
+                let properties = [];
+                properties = resp.records[0]._fields[0];
+                resolve( properties );
+            }).catch( ( err ) => {
+                reject( err );
+            }); // session.run
+        });
+    },
+    getAllPropertyValues: function( properties ){
+        let promiseArr = [];
+        for( let i = 0; i < properties.length; i++ ){
+            if( properties[i] != "name" && properties[i] != "kürzel" ){
+                promiseArr.push( new Promise( (resolve, reject) => {
+                        session.run( "MATCH (n) RETURN collect(distinct (n)." + properties[i] + ")" ).then( ( resp ) => {
+                            resolve( { prop: properties[i], values:  Array.from( new Set( [].concat( ...resp.records[0]._fields[0] ) ) ), } );
+                        }).catch( (err) => {
+                            reject(err);
+                        });
+                    })
+                ); //push()
+            }
+        }
+        return new Promise( ( resolve, reject ) => {
+            Promise.all(promiseArr).then( (resp) => {
+                session.close();
+                driver.close();
+                resolve( resp );
+            }).catch( ( err ) => { reject( err ) } );
         });
     },
 }
-
-// db.getAllRelations();
-// db.getAllNodes();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use( logger('dev') );
+app.use( express.json() );
+app.use( express.urlencoded( { extended: false } ) );
+app.use( cookieParser() );
+app.use( express.static( path.join( __dirname, 'public' ) ) );
 
 app.use('/', indexRouter);
-app.get('/graph', function passGraphData(req, res){
+app.get('/graph', function passGraphData( req, res ){
     let graph = {
         nodes: [],
         relations: [],
         labels:[],
+        properties:[],
     }
-    graph.nodes = db.getAllNodes().then((nodes) => {
+    graph.nodes = db.getAllNodes().then( ( nodes ) => {
         graph.nodes = nodes;
-        db.getAllRelations().then((relations) => {
+        db.getAllRelations().then( ( relations ) => {
             graph.relations = relations;
-            db.getAllLabels().then( (labels) => {
+            db.getAllLabels().then( ( labels ) => {
                 graph.labels = labels;
-                res.send(graph);
+                db.getAllProperties().then( ( properties ) => {
+                    db.getAllPropertyValues(properties).then( ( propertiesAndValues ) => {
+                        graph.properties = propertiesAndValues;
+                        // console.log(graph.properties);
+                        res.send(graph);
+                    });
+                });
             });
         });
-    })
+    });
 });
 app.use('/users', usersRouter);
 
