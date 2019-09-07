@@ -14,7 +14,8 @@
 // 1. includes
 //
 import ForceGraph3d from '3d-force-graph';
-require('three');
+var THREE = require('three');
+import GLTFLoader from 'three-gltf-loader';
 import SpriteText from 'three-spritetext';
 require('./index.scss');
 import * as d3 from 'd3-force-3d';
@@ -57,6 +58,7 @@ const requester = {
     init: ( ) => {
         requester.getAll( ['/graph'] ).then( ( resp ) => {
             graph.init( resp );
+            model.init();
             filter.init( resp[0].labels );
             meta.init( resp[0].properties );
             taskbar.init();
@@ -160,8 +162,6 @@ const graph = {
         // }
         return results;
     },
-    // broken stuff here
-    // sophia prinz disappears? highest id
     hideNodes: function( nodes ) {
         let newGraphData = graph.obj.graphData();
 
@@ -265,21 +265,26 @@ const graph = {
         graph.obj = ForceGraph3d( graph.options )( document.getElementById('graph') )
             // general
             .showNavInfo( false )
-            .dagMode( 'bu' )
-            .dagLevelDistance( 100 )
+            // .dagMode( 'bu' )
+            // .dagLevelDistance( 100 )
             .graphData( myData )
             .backgroundColor( '#FFFFFF' )
             // nodes
+            .nodeVal( NODE_REL_SIZE )
             .nodeColor( node => highlightNodes.indexOf( node ) === -1 ? graph.colors[node.label] : 'rgba(255,0,0,1)' )
             // links
             .linkWidth( link => highlightLinks.indexOf( link ) === -1 ? 1 : 4)
+            .linkColor( 'rgba(0,0,0,1)' )
+            .linkOpacity( 0.6 )
             // particles
             .linkDirectionalParticles( link => highlightLinks.indexOf( link ) === -1 ? 2 : 4)
             .linkDirectionalParticleWidth( 0.8 )
             .linkDirectionalParticleSpeed( 0.006 )
-            .d3Force('collision', d3.forceCollide( node => Math.cbrt( node.size ) * NODE_REL_SIZE).radius( 10 ) )
+            .d3Force('collision', d3.forceCollide( node => Math.cbrt(node.size) * NODE_REL_SIZE ).radius( 10 ) )
+            // .d3Force( 'center', d3.forceCenter() )
             .d3VelocityDecay( 0.3 )
             // interaction
+            .enableNodeDrag( false )
             .onNodeClick( node => {
                 // no state change
                 if ( ( !node && !highlightNodes.length ) ||  (highlightNodes.length === 1 && highlightNodes[0] === node ) ) {
@@ -322,6 +327,63 @@ const graph = {
             }
     } //</f: init>
 };
+
+// 3d model for the udk houses
+const model = {
+    loader: new GLTFLoader(),
+    scene: undefined,
+    getRoom: function( standort, name ) {
+        return model.scene.getObjectByName( name );
+    },
+    init: function(){
+        model.loader.load(
+            '../3d/190907_ha33.glb',
+            ( gltf ) => {
+                // called when the resource is loaded
+                console.log( gltf.scene );
+                model.scene = gltf.scene;
+                model.scene.position.y = -300;
+                model.scene.scale.x = 8;
+                model.scene.scale.y = 8;
+                model.scene.scale.z = 8;
+                graph.obj.scene().add( model.scene );
+
+                let newGraphData = graph.obj.graphData();
+                newGraphData.nodes.push( { name: "Raum001", id: -2000 } );
+                graph.obj.graphData(newGraphData); 
+
+                // model.scene.getObjectByName( "Raum001" ).updateMatrixWorld();
+                let targetPos = model.scene.getObjectByName( "Raum001" ).position;
+                let sourcePos = graph.getNodesBy("name", "Raum001").hits.visible[0];
+
+                console.log(targetPos);
+                sourcePos.x = 0;
+                sourcePos.y = 0;
+                sourcePos.z = 0;
+                console.log(sourcePos);
+                // console.log( graph.obj.graphData().nodes );
+                // graph.obj.nodeThreeObject( ( node ) => {
+                //     if( node.name === "Raum001" ){
+                //         console.log( model.scene.getObjectByName( "Raum001" ) );
+                //         let mesh = model.scene.getObjectByName( "Raum001" );
+                //         console.log(mesh);
+                //         mesh.material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+                //         return mesh;
+                //     }
+                // }).graphData(newGraphData);
+            },
+            ( xhr ) => {
+                // called while loading is progressing
+                console.log( `${( xhr.loaded / xhr.total * 100 )}% loaded` );
+            },
+            ( error ) => {
+                // called when loading has errors
+                console.error( 'An error happened', error );
+            },
+        );
+    }
+}
+
 
 // the object that handles the filters
 const filter = {
