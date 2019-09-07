@@ -3,10 +3,10 @@ udk-graph (Arbeitstitel) ist ein Werkzeug zur Abbildung der UdK-Organisation und
 Eine Universität ist eine räumlich-institutionelle Bindung vielfältiger Kompetenzen. Diese Kompetenzen funktionieren autark aber stehen vielfach auch in engem inhaltlichem Zusammenhang. Inhaltliche und kommunikative Transparenz oder gar Synergien aus dieser Nähe zu entwickeln, ist eine Herausforderung, deren Bewältigbarkeit vor dem Hintergrund zeitgenössischer Möglichkeiten der visuellen und strukturellen Aufarbeitung von Informationen neu bewertet werden muss. Im Sinne einer nachhaltigen und gemeinwohlorientierten Erzeugung und Verwaltung künstlerischer und wissenschaftlicher Kompetenz, sollte sich eine Universität heute im gleichen Maße als institutionelles Datenframework, wie als Institution der raumgebundenen Kompetenzanreicherung verstehen. 
 Im Rahmen des Projekts soll die angesprochene Neuberwertung mittels einer Webapplikation angestoßen werden. Es soll eine Schnittstelle zum Framework UdK gebildet werden, die für gezielte inhaltliche oder Strukturelle Anfragen dient. Dabei gilt besondere Aufmerksamkeit einer ganzheitlichen und intuitiven Abbildung der vorhandenen Strukturen aber auch der Sichtbarmachung von universitätsinhärenten Meta Daten.
 
-![Neo4J Graph Sample](./public/img/190531_graph.jpg)
+<!-- ![Neo4J Graph Sample](./public/img/190531_graph.jpg) -->
 
 <!-- ![webGL Graph and Filters](./public/img/190719_filters.JPG) -->
-![Current State UI](./public/img/190907_demo.JPG)
+![Current State UI](./public/img/190907_demo.jpg)
 video: https://www.youtube.com/embed/YJsGxVu1C6E
 
 # Changelog
