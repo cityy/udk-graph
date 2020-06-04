@@ -1,7 +1,8 @@
 doctype html
 html
   head
-    title= title
+    // title = title
+    title udk-graph
     link(rel='stylesheet', href='/css/main.css')
   body
     // block content
@@ -14,6 +15,12 @@ html
        li
         a.cleanLink(href="#", id="filterShortcut")
          | filter 
+       li
+        a.cleanLink(href="#", id="standorteShortcut")
+         | standorte
+       li
+        a.cleanLink(href="#", id="organigrammShortcut")
+         | organigramm
        li
         a.cleanLink(href="#")
          | about

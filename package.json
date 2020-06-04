@@ -23,7 +23,9 @@
     "morgan": "~1.9.1",
     "neo4j-driver": "^1.7.5",
     "simplebar": "^4.1.0",
-    "three-full": "^17.1.0"
+    "three-full": "^17.1.0",
+    "three-gltf-loader": "^1.108.0",
+    "three.js": "^0.77.1"
   },
   "devDependencies": {
     "css-loader": "^3.0.0",

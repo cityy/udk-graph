@@ -17,7 +17,7 @@
   src: url(39446831005da8e2d39091c6a603a0c6.otf);
   font-weight: 100; }
 
-html, body, #graph {
+html, body, #graph, #organigrammWrapper {
   margin: 0;
   padding: 0;
   max-width: 100%;
@@ -103,17 +103,17 @@ ul {
       border: none;
       border-bottom: 1px solid black; }
 
-#filterWindow {
+#filterWindow, #standorteWindow {
   left: 5%;
   width: 17%;
   white-space: nowrap; }
-  #filterWindow input {
+  #filterWindow input, #standorteWindow input {
     display: block;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     color: black; }
-  #filterWindow input[type="search"] {
+  #filterWindow input[type="search"], #standorteWindow input[type="search"] {
     background-color: transparent;
     border-radius: 0;
     border: 1px solid black;
@@ -121,34 +121,45 @@ ul {
     font-size: 1em;
     width: 100%;
     padding: 0.3em; }
-  #filterWindow input[type="search"]::placeholder {
+  #filterWindow input[type="search"]::placeholder, #standorteWindow input[type="search"]::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: black;
     margin-left: 0.5em;
     opacity: 1;
     /* Firefox */ }
-  #filterWindow input[type="search"]:-ms-input-placeholder {
+  #filterWindow input[type="search"]:-ms-input-placeholder, #standorteWindow input[type="search"]:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: black;
     margin-left: 0.5em; }
-  #filterWindow input[type="search"]::-ms-input-placeholder {
+  #filterWindow input[type="search"]::-ms-input-placeholder, #standorteWindow input[type="search"]::-ms-input-placeholder {
     /* Microsoft Edge */
     color: black;
     margin-left: 0.5em; }
-  #filterWindow input[type="checkbox"] {
+  #filterWindow input[type="checkbox"]:active, #filterWindow input[type="checkbox"]:focus, #standorteWindow input[type="checkbox"]:active, #standorteWindow input[type="checkbox"]:focus {
+    border: none;
+    outline: none; }
+  #filterWindow #metaChecklist input[type="checkbox"], #standorteWindow #metaChecklist input[type="checkbox"] {
+    margin: 0 0.5em 0 0; }
+  #filterWindow input[type="checkbox"], #standorteWindow input[type="checkbox"] {
     display: inline-block;
-    margin: 0em 0.5em 0 0;
+    margin: 0em 0 0 0;
     transform: translateY(0.15em);
     background-color: transparent;
     border-radius: 0;
     border: 1px solid black;
     width: 1em;
     height: 1em; }
-  #filterWindow input[type="checkbox"]:checked {
+  #filterWindow input[type="checkbox"].labelDetails, #standorteWindow input[type="checkbox"].labelDetails {
+    margin: 0 0.5em 0 0;
+    border-left: none; }
+  #filterWindow input[type="checkbox"]:checked, #standorteWindow input[type="checkbox"]:checked {
     background-color: black; }
-  #filterWindow input[type="checkbox"]:focus {
+  #filterWindow input[type="checkbox"].labelDetails:checked, #standorteWindow input[type="checkbox"].labelDetails:checked {
+    background-color: transparent;
+    background-image: url(../img/details.svg); }
+  #filterWindow input[type="checkbox"]:focus, #standorteWindow input[type="checkbox"]:focus {
     outline: 1px solid black; }
-  #filterWindow input[type="checkbox"].varies {
+  #filterWindow input[type="checkbox"].varies, #standorteWindow input[type="checkbox"].varies {
     background-color: rgba(255, 255, 255, 0.8); }
 
 #infoWindow {
@@ -169,10 +180,33 @@ ul {
     #infoWindow ul li:hover {
       color: white;
       background-color: black; }
+      #infoWindow ul li:hover a {
+        color: white; }
     #infoWindow ul span {
       margin: 0;
       padding: 0;
       font-size: smaller; }
+  #infoWindow a {
+    color: black; }
+    #infoWindow a:visited {
+      color: black; }
+
+#organigrammWindow {
+  left: 5%;
+  width: 35%;
+  height: 50%;
+  overflow: hidden; }
+  #organigrammWindow .windowContent {
+    padding: 0;
+    max-height: 100%; }
+  #organigrammWindow canvas {
+    max-height: 100%;
+    max-width: 100%;
+    height: 100% !important; }
+
+/*3d-force-graph node labels*/
+.scene-tooltip {
+  color: black !important; }
 
 [data-simplebar] {
   position: relative;
