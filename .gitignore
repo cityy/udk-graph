@@ -5,6 +5,7 @@ nbproject
 .settings
 public/bower_components
 config/runtime.json
+tests
 
 ### Node template
 # Logs
