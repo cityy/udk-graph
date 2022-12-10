@@ -17,7 +17,7 @@
     "d3-force-3d": "^2.0.1",
     "d3-octree": "^0.1.4",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
